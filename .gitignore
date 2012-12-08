@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+*~
+bin
+build.xml
+local.properties
+proguard.cfg
+.settings
