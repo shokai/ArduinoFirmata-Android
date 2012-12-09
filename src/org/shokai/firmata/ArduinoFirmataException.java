@@ -1,7 +1,7 @@
 package org.shokai.firmata;
 
-public class Error extends Exception{
-    public Error(String msg){
-        
+public class ArduinoFirmataException extends Exception{
+    public ArduinoFirmataException(String msg){
+        super(msg);
     }
 }
