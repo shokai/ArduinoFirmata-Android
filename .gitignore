@@ -7,4 +7,3 @@ build.xml
 local.properties
 proguard.cfg
 .settings
-samples/FirmataSampleApp/libs/arduino-firmata.jar
