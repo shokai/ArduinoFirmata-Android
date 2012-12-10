@@ -14,8 +14,8 @@ public class ArduinoFirmata{
     public final static String VERSION = "0.0.1.beta";
     public final static String TAG = "ArduinoFirmata";
     private UsbSerialDriver usb;
-
     private Context context;
+
     public ArduinoFirmata(android.app.Activity context){
         this.context = context;
         UsbManager manager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
@@ -23,9 +23,7 @@ public class ArduinoFirmata{
     }
 
     public void start() throws IOException, InterruptedException{
-
         if(this.usb == null) throw new IOException("device not found");
-
         try{
             this.usb.open();
             this.usb.setBaudRate(9600);
