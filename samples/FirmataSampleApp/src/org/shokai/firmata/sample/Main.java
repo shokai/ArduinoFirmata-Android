@@ -26,6 +26,23 @@ public class Main extends Activity{
         this.arduino = new ArduinoFirmata(this);
         try{
             arduino.start();
+            new Thread(new Runnable(){
+                    public void run(){
+                        while(true){
+                            try{
+                                Thread.sleep(1500);
+                                arduino.digitalWrite(13, ArduinoFirmata.HIGH);
+                                arduino.analogWrite(11, 100);
+                                Thread.sleep(1500);
+                                arduino.digitalWrite(13, ArduinoFirmata.LOW);
+                                arduino.analogWrite(11, 255);
+                            }
+                            catch(InterruptedException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).start();
         }
         catch(IOException e){
             e.printStackTrace();
