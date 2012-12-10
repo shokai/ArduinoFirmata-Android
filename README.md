@@ -11,9 +11,13 @@ Arduino Firmata protocol implementation on Android(Java)
 
 ## Build arduino-firmata.jar
 
-    % export LC_ALL=en
+set Android SDK Path
+
     % export CLASSPATH=$CLASSPATH:/usr/local/var/lib/android-sdk/platforms/android-13/android.jar
-    % export CLASSPATH=$CLASSPATH:`pwd`/usb-serial-for-android/UsbSerialLibrary/src/
+    % export LC_ALL=en
+
+build jar
+
     % make
 
 => arduino-firmata.jar
