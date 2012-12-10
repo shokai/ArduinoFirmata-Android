@@ -1,10 +1,11 @@
-# Install
+ArduinoFirmata Sample App
+=========================
 
-## setup
+## Setup
 
     % make setup
 
-## build & install
+## Build & Install
 
     % make
     % make install
