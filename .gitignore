@@ -8,3 +8,4 @@ local.properties
 proguard.cfg
 .settings
 tmp
+src/com/hoho
