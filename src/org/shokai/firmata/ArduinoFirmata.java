@@ -49,6 +49,9 @@ public class ArduinoFirmata{
     private int[] analogInputData   = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private int majorVersion = 0;
     private int minorVersion = 0;
+    public String getBoardVersion(){
+        return String.valueOf(majorVersion)+"."+String.valueOf(minorVersion);
+    }
 
     public ArduinoFirmata(android.app.Activity context){
         this.context = context;
@@ -68,7 +71,7 @@ public class ArduinoFirmata{
         start_receive_thread();
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(5000);
         }
         catch (InterruptedException e){
             e.printStackTrace();
@@ -99,7 +102,6 @@ public class ArduinoFirmata{
         final UsbSerialDriver usb = this.usb;
         this.th_receive = new Thread(new Runnable(){
                 public void run(){
-                    Log.v(TAG, "start read thread");
                     while(true){
                         try{
                             byte buf[] = new byte[256];
@@ -124,7 +126,7 @@ public class ArduinoFirmata{
     public void write(int data){
         byte[] writeData = {(byte)data};
         try{
-            this.usb.write(writeData, 10);
+            this.usb.write(writeData, 100);
         }
         catch(IOException e){
             e.printStackTrace();

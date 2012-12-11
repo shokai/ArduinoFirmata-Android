@@ -32,10 +32,11 @@ public class Main extends Activity{
                             try{
                                 Thread.sleep(1500);
                                 arduino.digitalWrite(13, ArduinoFirmata.HIGH);
-                                arduino.analogWrite(11, 100);
+                                arduino.analogWrite(11, 20);
                                 Thread.sleep(1500);
                                 arduino.digitalWrite(13, ArduinoFirmata.LOW);
                                 arduino.analogWrite(11, 255);
+                                Log.v(TAG+" analog read", String.valueOf(arduino.analogRead(0)));
                             }
                             catch(InterruptedException e){
                                 e.printStackTrace();
