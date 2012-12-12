@@ -37,6 +37,10 @@ public class ArduinoFirmata{
     private UsbSerialDriver usb;
     private Context context;
     private Thread th_receive = null;
+    private ArduinoFirmataEventHandler handler;
+    public void addEventHandler(ArduinoFirmataEventHandler handler){
+        this.handler = handler;
+    }
 
     private int waitForData = 0;
     private int executeMultiByteCommand = 0;
@@ -60,7 +64,7 @@ public class ArduinoFirmata{
     }
 
     public void start() throws IOException, InterruptedException{
-        if(this.usb == null) throw new IOException("device not found");
+        if(!this.isOpen()) throw new IOException("device not found");
         try{
             this.usb.open();
             this.usb.setBaudRate(57600);
@@ -68,7 +72,31 @@ public class ArduinoFirmata{
         catch(IOException e){
             throw e;
         }
-        start_receive_thread();
+        if(this.th_receive == null){
+            final ArduinoFirmata that = this;
+            this.th_receive = new Thread(new Runnable(){
+                    public void run(){
+                        while(that.isOpen()){
+                            try{
+                                byte buf[] = new byte[256];
+                                int size = usb.read(buf, buf.length);
+                                for(int i = 0; i < size; i++){
+                                    processInput(buf[i]);
+                                }
+                                Thread.sleep(10);
+                            }
+                            catch(IOException e){
+                                that.close();
+                                if(handler!=null) handler.onClose();
+                            }
+                            catch(InterruptedException e){
+                                if(handler!=null) handler.onError(e.toString());
+                            }
+                        }
+                    }
+                });
+            this.th_receive.start();
+        }
 
         try {
             Thread.sleep(5000);
@@ -86,50 +114,30 @@ public class ArduinoFirmata{
         }
     }
 
+    public boolean isOpen(){
+        return this.usb != null;
+    }
+
     public boolean close(){
         try{
             this.usb.close();
+            this.usb = null;
             return true;
         }
         catch(IOException e){
-            e.printStackTrace();
+            if(handler!=null) handler.onError(e.toString());
             return false;
         }
-    }
-
-    private void start_receive_thread(){
-        if(this.th_receive != null) return;
-        final UsbSerialDriver usb = this.usb;
-        this.th_receive = new Thread(new Runnable(){
-                public void run(){
-                    while(true){
-                        try{
-                            byte buf[] = new byte[256];
-                            int size = usb.read(buf, buf.length);
-                            for(int i = 0; i < size; i++){
-                                processInput(buf[i]);
-                            }
-                            Thread.sleep(10);
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                        }
-                        catch(InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-        this.th_receive.start();
     }
 
     public void write(int data){
         byte[] writeData = {(byte)data};
         try{
-            this.usb.write(writeData, 100);
+            if(this.isOpen()) this.usb.write(writeData, 100);
         }
         catch(IOException e){
-            e.printStackTrace();
+            this.close();
+            if(handler!=null) handler.onClose();
         }
     }
 

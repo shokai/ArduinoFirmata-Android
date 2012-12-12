@@ -1,6 +1,7 @@
 package org.shokai.firmata.sample;
 
 import org.shokai.firmata.ArduinoFirmata;
+import org.shokai.firmata.ArduinoFirmataEventHandler;
 
 import java.io.*;
 import java.lang.*;
@@ -24,11 +25,21 @@ public class Main extends Activity{
         Log.v(TAG, ArduinoFirmata.VERSION);
         
         this.arduino = new ArduinoFirmata(this);
+        final Activity self = this;
+        arduino.addEventHandler(new ArduinoFirmataEventHandler(){
+                public void onError(String errorMessage){
+                    Log.e(TAG, errorMessage);
+                }
+                public void onClose(){
+                    Log.v(TAG, "arduino closed");
+                    self.finish();
+                }
+            });
         try{
             arduino.start();
             new Thread(new Runnable(){
                     public void run(){
-                        while(true){
+                        while(arduino.isOpen()){
                             try{
                                 Thread.sleep(1500);
                                 arduino.digitalWrite(13, ArduinoFirmata.HIGH);
