@@ -42,10 +42,10 @@ public class Main extends Activity{
                         while(arduino.isOpen()){
                             try{
                                 Thread.sleep(1500);
-                                arduino.digitalWrite(13, ArduinoFirmata.HIGH);
+                                arduino.digitalWrite(13, true);
                                 arduino.analogWrite(11, 20);
                                 Thread.sleep(1500);
-                                arduino.digitalWrite(13, ArduinoFirmata.LOW);
+                                arduino.digitalWrite(13, false);
                                 arduino.analogWrite(11, 255);
                                 Log.v(TAG+" analog read", String.valueOf(arduino.analogRead(0)));
                             }

@@ -21,8 +21,8 @@ public class ArduinoFirmata{
     public static final int SERVO  = 4;
     public static final int SHIFT  = 5;
     public static final int I2C    = 6;
-    public static final int LOW    = 0;
-    public static final int HIGH   = 1;
+    public static final boolean LOW   = false;
+    public static final boolean HIGH  = true;
     private final int MAX_DATA_BYTES  = 32;
     private final int DIGITAL_MESSAGE = 0x90;
     private final int ANALOG_MESSAGE  = 0xE0;
@@ -140,8 +140,8 @@ public class ArduinoFirmata{
         }
     }
 
-    public int digitalRead(int pin) {
-        return (digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01;
+    public boolean digitalRead(int pin) {
+        return ((digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01) > 0;
     }
 
     public int analogRead(int pin) {
@@ -154,9 +154,9 @@ public class ArduinoFirmata{
         write(mode);
     }
 
-    public void digitalWrite(int pin, int value) {
+    public void digitalWrite(int pin, boolean value) {
         int portNumber = (pin >> 3) & 0x0F;
-        if (value == 0) digitalOutputData[portNumber] &= ~(1 << (pin & 0x07));
+        if (value) digitalOutputData[portNumber] &= ~(1 << (pin & 0x07));
         else digitalOutputData[portNumber] |= (1 << (pin & 0x07));
         write(DIGITAL_MESSAGE | portNumber);
         write(digitalOutputData[portNumber] & 0x7F);
