@@ -29,13 +29,12 @@ public class Main extends Activity{
         this.handler = new Handler();
         this.btnDigitalWrite = (ToggleButton)findViewById(R.id.btn_digital_write);
         this.textAnalogRead = (TextView)findViewById(R.id.text_analog_read);
-        Log.v(TAG, "start activity");
-        Log.v(TAG, ArduinoFirmata.VERSION);
 
-        
+        Log.v(TAG, "start");
+        Log.v(TAG, "Firmata Lib Version : "+ArduinoFirmata.VERSION);
+
         this.arduino = new ArduinoFirmata(this);
         final Activity self = this;
-
         arduino.addEventHandler(new ArduinoFirmataEventHandler(){
                 public void onError(String errorMessage){
                     Log.e(TAG, errorMessage);
@@ -48,31 +47,33 @@ public class Main extends Activity{
 
         btnDigitalWrite.setOnCheckedChangeListener(new OnCheckedChangeListener(){
                 public void onCheckedChanged(CompoundButton btn, boolean isChecked){
-                    Log.v(TAG, isChecked ? "on" : "off");
+                    Log.v(TAG, isChecked ? "LED on" : "LED off");
                     arduino.digitalWrite(13, isChecked);
                 }
             });
-        try{
-            arduino.start();
-            arduino.pinMode(7, arduino.INPUT);
-            new Thread(new Runnable(){
-                    public void run(){
-                        while(arduino.isOpen()){
-                            try{
-                                Thread.sleep(100);
-                                handler.post(new Runnable(){
-                                        public void run(){
-                                            int ad = arduino.analogRead(0);
-                                            textAnalogRead.setText("analogRead(0) = "+String.valueOf(ad));
-                                        }
-                                    });
-                            }
-                            catch(InterruptedException e){
-                                e.printStackTrace();
-                            }
+
+        Thread thread = new Thread(new Runnable(){
+                public void run(){
+                    while(arduino.isOpen()){
+                        try{
+                            Thread.sleep(100);
+                            handler.post(new Runnable(){
+                                    public void run(){
+                                        int ad = arduino.analogRead(0);
+                                        textAnalogRead.setText("analogRead(0) = "+String.valueOf(ad));
+                                    }
+                                });
+                        }
+                        catch(InterruptedException e){
+                            e.printStackTrace();
                         }
                     }
-                }).start();
+                }
+            });
+
+        try{
+            arduino.start();
+            thread.start();
         }
         catch(IOException e){
             e.printStackTrace();
