@@ -37,6 +37,7 @@ public class Main extends Activity{
             });
         try{
             arduino.start();
+            arduino.pinMode(7, arduino.INPUT);
             new Thread(new Runnable(){
                     public void run(){
                         while(arduino.isOpen()){
@@ -47,7 +48,8 @@ public class Main extends Activity{
                                 Thread.sleep(1500);
                                 arduino.digitalWrite(13, false);
                                 arduino.analogWrite(11, 255);
-                                Log.v(TAG+" analog read", String.valueOf(arduino.analogRead(0)));
+                                Log.v(TAG+" analog read(0)", String.valueOf(arduino.analogRead(0)));
+                                Log.v(TAG+" digital read(7)", String.valueOf(arduino.digitalRead(7)));
                             }
                             catch(InterruptedException e){
                                 e.printStackTrace();
