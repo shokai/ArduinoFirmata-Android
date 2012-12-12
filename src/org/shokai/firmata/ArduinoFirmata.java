@@ -73,10 +73,9 @@ public class ArduinoFirmata{
             throw e;
         }
         if(this.th_receive == null){
-            final ArduinoFirmata that = this;
             this.th_receive = new Thread(new Runnable(){
                     public void run(){
-                        while(that.isOpen()){
+                        while(isOpen()){
                             try{
                                 byte buf[] = new byte[256];
                                 int size = usb.read(buf, buf.length);
@@ -86,7 +85,7 @@ public class ArduinoFirmata{
                                 Thread.sleep(10);
                             }
                             catch(IOException e){
-                                that.close();
+                                close();
                                 if(handler!=null) handler.onClose();
                             }
                             catch(InterruptedException e){
