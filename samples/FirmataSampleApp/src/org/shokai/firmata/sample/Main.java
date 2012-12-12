@@ -61,12 +61,13 @@ public class Main extends Activity{
 
         seekAnalogWrite.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
                 public void onProgressChanged(SeekBar seekBar, int value, boolean fromTouch){
-                    Log.v(TAG, "analogWrite(11, "+String.valueOf(value)+")");
-                    arduino.analogWrite(11, value);
                 }
                 public void onStartTrackingTouch(SeekBar seekBar) {
                 }
                 public void onStopTrackingTouch(SeekBar seekBar) {
+                    int value = seekBar.getProgress();
+                    Log.v(TAG, "analogWrite(11, "+String.valueOf(value)+")");
+                    arduino.analogWrite(11, value);
                 }
             });
 
