@@ -20,6 +20,7 @@ public class Main extends Activity{
     private ArduinoFirmata arduino;
     private ToggleButton btnDigitalWrite;
     private TextView textAnalogRead;
+    private TextView textDigitalRead;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -29,6 +30,7 @@ public class Main extends Activity{
         this.handler = new Handler();
         this.btnDigitalWrite = (ToggleButton)findViewById(R.id.btn_digital_write);
         this.textAnalogRead = (TextView)findViewById(R.id.text_analog_read);
+        this.textDigitalRead = (TextView)findViewById(R.id.text_digital_read);
 
         Log.v(TAG, "start");
         Log.v(TAG, "Firmata Lib Version : "+ArduinoFirmata.VERSION);
@@ -59,8 +61,10 @@ public class Main extends Activity{
                             Thread.sleep(100);
                             handler.post(new Runnable(){
                                     public void run(){
-                                        int ad = arduino.analogRead(0);
-                                        textAnalogRead.setText("analogRead(0) = "+String.valueOf(ad));
+                                        int analog_value = arduino.analogRead(0);
+                                        boolean digital_value = arduino.digitalRead(7);
+                                        textAnalogRead.setText("analogRead(0) = "+String.valueOf(analog_value));
+                                        textDigitalRead.setText("digitalRead(7) = "+String.valueOf(digital_value));
                                     }
                                 });
                         }
@@ -73,6 +77,7 @@ public class Main extends Activity{
 
         try{
             arduino.start();
+            arduino.pinMode(7, ArduinoFirmata.INPUT);
             thread.start();
         }
         catch(IOException e){
