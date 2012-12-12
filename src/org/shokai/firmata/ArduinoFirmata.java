@@ -156,7 +156,7 @@ public class ArduinoFirmata{
 
     public void digitalWrite(int pin, boolean value) {
         int portNumber = (pin >> 3) & 0x0F;
-        if (value) digitalOutputData[portNumber] &= ~(1 << (pin & 0x07));
+        if (!value) digitalOutputData[portNumber] &= ~(1 << (pin & 0x07));
         else digitalOutputData[portNumber] |= (1 << (pin & 0x07));
         write(DIGITAL_MESSAGE | portNumber);
         write(digitalOutputData[portNumber] & 0x7F);
