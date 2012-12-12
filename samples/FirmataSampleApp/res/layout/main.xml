@@ -4,6 +4,12 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+  <ToggleButton
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textOn="on board LED : ON"
+      android:textOff="on board LED : OFF"
+      android:id="@+id/btn_digital_write" />
   <TextView
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"

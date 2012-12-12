@@ -12,11 +12,13 @@ import android.content.*;
 import android.os.*;
 import android.util.*;
 import android.widget.*;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class Main extends Activity{
     private String TAG = "ArduinoFirmataSample";
     private Handler handler;
     private ArduinoFirmata arduino;
+    private ToggleButton btnDigitalWrite;
     private TextView textAnalogRead;
 
     @Override
@@ -25,6 +27,7 @@ public class Main extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         this.handler = new Handler();
+        this.btnDigitalWrite = (ToggleButton)findViewById(R.id.btn_digital_write);
         this.textAnalogRead = (TextView)findViewById(R.id.text_analog_read);
         Log.v(TAG, "start activity");
         Log.v(TAG, ArduinoFirmata.VERSION);
@@ -41,6 +44,12 @@ public class Main extends Activity{
                     self.finish();
                 }
             });
+        btnDigitalWrite.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+                public void onCheckedChanged(CompoundButton btn, boolean isChecked){
+                    Log.v(TAG, isChecked ? "on" : "off");
+                    arduino.digitalWrite(13, isChecked);
+                }
+            });
         try{
             arduino.start();
             arduino.pinMode(7, arduino.INPUT);
@@ -49,10 +58,8 @@ public class Main extends Activity{
                         while(arduino.isOpen()){
                             try{
                                 Thread.sleep(1500);
-                                arduino.digitalWrite(13, true);
                                 arduino.analogWrite(11, 20);
                                 Thread.sleep(1500);
-                                arduino.digitalWrite(13, false);
                                 arduino.analogWrite(11, 255);
                                 handler.post(new Runnable(){
                                         public void run(){
