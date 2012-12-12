@@ -13,12 +13,14 @@ import android.os.*;
 import android.util.*;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class Main extends Activity{
     private String TAG = "ArduinoFirmataSample";
     private Handler handler;
     private ArduinoFirmata arduino;
     private ToggleButton btnDigitalWrite;
+    private SeekBar seekAnalogWrite;
     private TextView textAnalogRead;
     private TextView textDigitalRead;
 
@@ -29,6 +31,9 @@ public class Main extends Activity{
         setContentView(R.layout.main);
         this.handler = new Handler();
         this.btnDigitalWrite = (ToggleButton)findViewById(R.id.btn_digital_write);
+        this.seekAnalogWrite = (SeekBar)findViewById(R.id.seek_analog_write);
+        this.seekAnalogWrite.setMax(255);
+        this.seekAnalogWrite.setProgress(10);
         this.textAnalogRead = (TextView)findViewById(R.id.text_analog_read);
         this.textDigitalRead = (TextView)findViewById(R.id.text_digital_read);
 
@@ -51,6 +56,17 @@ public class Main extends Activity{
                 public void onCheckedChanged(CompoundButton btn, boolean isChecked){
                     Log.v(TAG, isChecked ? "LED on" : "LED off");
                     arduino.digitalWrite(13, isChecked);
+                }
+            });
+
+        seekAnalogWrite.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+                public void onProgressChanged(SeekBar seekBar, int value, boolean fromTouch){
+                    Log.v(TAG, "analogWrite(11, "+String.valueOf(value)+")");
+                    arduino.analogWrite(11, value);
+                }
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+                public void onStopTrackingTouch(SeekBar seekBar) {
                 }
             });
 
