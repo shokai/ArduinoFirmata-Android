@@ -35,6 +35,7 @@ public class Main extends Activity{
         
         this.arduino = new ArduinoFirmata(this);
         final Activity self = this;
+
         arduino.addEventHandler(new ArduinoFirmataEventHandler(){
                 public void onError(String errorMessage){
                     Log.e(TAG, errorMessage);
@@ -44,6 +45,7 @@ public class Main extends Activity{
                     self.finish();
                 }
             });
+
         btnDigitalWrite.setOnCheckedChangeListener(new OnCheckedChangeListener(){
                 public void onCheckedChanged(CompoundButton btn, boolean isChecked){
                     Log.v(TAG, isChecked ? "on" : "off");
@@ -57,17 +59,13 @@ public class Main extends Activity{
                     public void run(){
                         while(arduino.isOpen()){
                             try{
-                                Thread.sleep(1500);
-                                arduino.analogWrite(11, 20);
-                                Thread.sleep(1500);
-                                arduino.analogWrite(11, 255);
+                                Thread.sleep(100);
                                 handler.post(new Runnable(){
                                         public void run(){
                                             int ad = arduino.analogRead(0);
                                             textAnalogRead.setText("analogRead(0) = "+String.valueOf(ad));
                                         }
                                     });
-                                Log.v(TAG+" digital read(7)", String.valueOf(arduino.digitalRead(7)));
                             }
                             catch(InterruptedException e){
                                 e.printStackTrace();
