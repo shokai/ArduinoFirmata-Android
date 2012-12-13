@@ -93,7 +93,7 @@ public class Main extends Activity{
             });
 
         try{
-            arduino.start();
+            arduino.connect();
             arduino.pinMode(7, ArduinoFirmata.INPUT);
             thread.start();
         }

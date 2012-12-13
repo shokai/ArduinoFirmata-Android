@@ -63,7 +63,7 @@ public class ArduinoFirmata{
         this.usb = UsbSerialProber.acquire(manager);
     }
 
-    public void start() throws IOException, InterruptedException{
+    public void connect() throws IOException, InterruptedException{
         if(!this.isOpen()) throw new IOException("device not found");
         try{
             this.usb.open();
