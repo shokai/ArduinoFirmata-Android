@@ -1,5 +1,5 @@
-ArduinoFirmata-Android
-======================
+ArduinoFirmata on Android
+=========================
 Arduino Firmata protocol (http://firmata.org) implementation on Android Java.
 
 * http://shokai.github.com/ArduinoFirmata-Android
