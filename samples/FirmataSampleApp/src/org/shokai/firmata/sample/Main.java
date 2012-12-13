@@ -42,7 +42,7 @@ public class Main extends Activity{
 
         this.arduino = new ArduinoFirmata(this);
         final Activity self = this;
-        arduino.addEventHandler(new ArduinoFirmataEventHandler(){
+        arduino.setEventHandler(new ArduinoFirmataEventHandler(){
                 public void onError(String errorMessage){
                     Log.e(TAG, errorMessage);
                 }

@@ -38,7 +38,7 @@ public class ArduinoFirmata{
     private Context context;
     private Thread th_receive = null;
     private ArduinoFirmataEventHandler handler;
-    public void addEventHandler(ArduinoFirmataEventHandler handler){
+    public void setEventHandler(ArduinoFirmataEventHandler handler){
         this.handler = handler;
     }
 

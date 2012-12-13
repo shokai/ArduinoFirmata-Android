@@ -80,7 +80,7 @@ arduino.close();
 
 ### Set Event Handler
 ```java
-arduino.addEventHandler(
+arduino.setEventHandler(
   new ArduinoFirmataEventHandler(){
     public void onError(String errorMessage){
       Log.e("ArduinoFirmata App", errorMessage);
