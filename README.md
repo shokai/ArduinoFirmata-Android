@@ -18,11 +18,24 @@ SYNOPSIS:
 ---------
 
 1. Download [arduino-firmata.jar](https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar)
-2. Download [usb-serial-for-android](http://code.google.com/p/usb-serial-for-android)
+2. Download [usb-serial-for-android.jar](http://code.google.com/p/usb-serial-for-android)
 3. Put into "libs" directory
+4. Copy [device_filter.xml](http://usb-serial-for-android.googlecode.com/git/UsbSerialExamples/res/xml/device_filter.xml) to "res/xml" directory
 
-<img src="http://shokai.org/archive/file/1ccdad0b5a0d705124e8fb0cdd5a98c0.png">
+<img src="http://shokai.org/archive/file/9cc50dffd79a489b23fcf75e4250d4fa.png">
 
+5. edit AndroidManifest.xml
+
+```xml
+<activity android:name="MainActivity" />
+  <intent-filter>
+    <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+  </intent-filter>
+  <meta-data
+      android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+      android:resource="@xml/device_filter" />
+</activity>
+```
 
 ### Connect
 
