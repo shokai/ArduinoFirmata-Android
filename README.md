@@ -111,6 +111,7 @@ set Android SDK Path
 
 build jar
 
+    % make init
     % make
 
 => arduino-firmata.jar
