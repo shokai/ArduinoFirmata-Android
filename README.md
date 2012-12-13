@@ -2,21 +2,26 @@ ArduinoFirmata-Android
 ======================
 Arduino Firmata protocol (http://firmata.org) implementation on Android(Java)
 
-* https://github.com/shokai/ArduinoFirmata-Android
+* http://shokai.github.com/ArduinoFirmata-Android
+
+
+What is Firmata?
+----------------
+Firmata is a protocol to controll Arduino from Application on Android Phone.
+You can write Arduino code in Java.
+
 
 REQUIREMENTS:
 -------------
 * Arduino Standard Firmata v2.2
-
-Arduino IDE -> [File] -> [Examples] -> [Firmata] -> [StandardFirmata]
-
+  * Arduino IDE -> [File] -> [Examples] -> [Firmata] -> [StandardFirmata]
 * Android SDK 13+ (Android OS 3.2+)
 * [usb-serial-for-android](http://code.google.com/p/usb-serial-for-android)
 * [USB Host Cable](https://www.google.com/search?q=USB+host+cable)
 
 
-SYNOPSIS:
----------
+SETUP:
+------
 
 1. Copy [arduino-firmata.jar](https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar) and [usb-serial-for-android.jar](http://code.google.com/p/usb-serial-for-android) to "libs" directory
 2. Copy [device_filter.xml](http://usb-serial-for-android.googlecode.com/git/UsbSerialExamples/res/xml/device_filter.xml) to "res/xml" directory
@@ -35,6 +40,10 @@ SYNOPSIS:
 
 <img src="http://shokai.org/archive/file/9cc50dffd79a489b23fcf75e4250d4fa.png">
 
+
+
+SYNOPSIS:
+---------
 
 ### Connect
 
@@ -92,7 +101,8 @@ arduino.setEventHandler(
 );
 ```
 
-see samples https://github.com/shokai/ArduinoFirmata-Android/blob/master/samples
+### Samples
+https://github.com/shokai/ArduinoFirmata-Android/blob/master/samples
 
 
 Contributing
