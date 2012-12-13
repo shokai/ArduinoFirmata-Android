@@ -61,12 +61,12 @@ arduino.analogWrite(11, 230); // pinNumber, value(0~255)
 arduino.analogRead(0);  // => 0 ~ 1023
 ```
 
-Close
+### Close
 ```java
 arduino.close();
 ```
 
-Set Event Handler
+### Set Event Handler
 ```java
 arduino.addEventHandler(
   new ArduinoFirmataEventHandler(){
