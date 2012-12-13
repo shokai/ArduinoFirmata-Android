@@ -183,7 +183,7 @@ public class ArduinoFirmata{
         this.minorVersion = minorVersion;
     }
 
-    public void processInput(byte inputData){
+    private void processInput(byte inputData){
         int command;
         if (parsingSysex) {
             if (inputData == END_SYSEX) {
