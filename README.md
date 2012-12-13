@@ -6,6 +6,7 @@ Arduino Firmata protocol (http://firmata.org) implementation on Android(Java)
 REQUIREMENTS:
 -------------
 * Arduino Standard Firmata v2.2
+
 Arduino IDE -> [File] -> [Examples] -> [Firmata] -> [StandardFirmata]
 
 * Android SDK 13+ (Android OS 3.2+)
@@ -16,9 +17,10 @@ Arduino IDE -> [File] -> [Examples] -> [Firmata] -> [StandardFirmata]
 SYNOPSIS:
 ---------
 
-1. Download (https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar)[arduino-firmata.jar]
+1. Download [arduino-firmata.jar](https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar)
 2. Download [usb-serial-for-android](http://code.google.com/p/usb-serial-for-android)
 3. Put into "libs" directory
+
 <img src="http://shokai.org/archive/file/1ccdad0b5a0d705124e8fb0cdd5a98c0.png">
 
 
@@ -39,7 +41,7 @@ catch(IOException e){
 
 ### Digital Write
 ```java
-arduino.digitalWrite(13, true);
+arduino.digitalWrite(13, true); // on board LED
 arduino.digitalWrite(13, false);
 ```
 
@@ -51,7 +53,7 @@ arduino.digitalRead(7);  // => true/false
 
 ### Analog Write (PWM)
 ```java
-arduino.analogWrite(11, 230);
+arduino.analogWrite(11, 230); // pinNumber, value(0~255)
 ```
 
 ### Analog Read
