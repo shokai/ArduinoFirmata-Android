@@ -17,11 +17,9 @@ Arduino IDE -> [File] -> [Examples] -> [Firmata] -> [StandardFirmata]
 SYNOPSIS:
 ---------
 
-1. Download [arduino-firmata.jar](https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar)
-2. Download [usb-serial-for-android.jar](http://code.google.com/p/usb-serial-for-android)
-3. Put into "libs" directory
-4. Copy [device_filter.xml](http://usb-serial-for-android.googlecode.com/git/UsbSerialExamples/res/xml/device_filter.xml) to "res/xml" directory
-5. edit AndroidManifest.xml
+1. Copy [arduino-firmata.jar](https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar) and [usb-serial-for-android.jar](http://code.google.com/p/usb-serial-for-android) to "libs" directory
+2. Copy [device_filter.xml](http://usb-serial-for-android.googlecode.com/git/UsbSerialExamples/res/xml/device_filter.xml) to "res/xml" directory
+3. edit AndroidManifest.xml
 
 ```xml
 <activity android:name="MainActivity" />
