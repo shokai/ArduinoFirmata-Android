@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Arduinofirmata-android by shokai</title>
+    <title>ArduinoFirmata Android</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -17,7 +17,7 @@
   <body>
 
       <header>
-        <h1>Arduinofirmata-android</h1>
+        <h1>ArduinoFirmata Android</h1>
         <p>Arduino Firmata protocol implementation on Android(Java)</p>
       </header>
 
@@ -39,12 +39,10 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>ArduinoFirmata-Android</h1>
 
-<p>Arduino Firmata protocol (<a href="http://firmata.org">http://firmata.org</a>) implementation on Android(Java)</p>
+        <h1>What is Firmata?</h1>
+        <p><a href="http://firmata.org">Firmata</a> is a protocol to controll <a href="http://www.arduino.cc">Arduino</a> from Application on Android Phone.</p>
 
-<ul>
-<li><a href="https://github.com/shokai/ArduinoFirmata-Android">https://github.com/shokai/ArduinoFirmata-Android</a></li>
 </ul><h2>REQUIREMENTS:</h2>
 
 <ul>
@@ -55,7 +53,8 @@
 <li>Android SDK 13+ (Android OS 3.2+)</li>
 <li><a href="http://code.google.com/p/usb-serial-for-android">usb-serial-for-android</a></li>
 <li><a href="https://www.google.com/search?q=USB+host+cable">USB Host Cable</a></li>
-</ul><h2>SYNOPSIS:</h2>
+</ul>
+<h2>SETUP:</h2>
 
 <ol>
 <li>Copy <a href="https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar">arduino-firmata.jar</a> and <a href="http://code.google.com/p/usb-serial-for-android">usb-serial-for-android.jar</a> to "libs" directory</li>
@@ -73,7 +72,9 @@
 
 <p><img src="http://shokai.org/archive/file/9cc50dffd79a489b23fcf75e4250d4fa.png"></p>
 
-<h3>Connect</h3>
+<h2>SYNOPSIS:</h2>
+
+<h3>Connect Arduino with Android</h3>
 
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">org.shokai.firmata.ArduinoFirmata</span><span class="o">;</span>
 
@@ -115,7 +116,9 @@
 
 <h3>Set Event Handler</h3>
 
-<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">setEventHandler</span><span class="o">(</span>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">org.shokai.firmata.ArduinoFirmataEventHandler</span><span class="o">;</span>
+
+<span class="n">arduino</span><span class="o">.</span><span class="na">setEventHandler</span><span class="o">(</span>
   <span class="k">new</span> <span class="nf">ArduinoFirmataEventHandler</span><span class="o">(){</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorMessage</span><span class="o">){</span>
       <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"ArduinoFirmata App"</span><span class="o">,</span> <span class="n">errorMessage</span><span class="o">);</span>
