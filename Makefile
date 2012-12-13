@@ -15,4 +15,6 @@ compile:
 build: compile
 	cd src &&\
 	jar cvf arduino-firmata.jar ./org &&\
+	jar uvf arduino-firmata.jar ../README.md &&\
+	jar uvf arduino-firmata.jar ../LICENSE.txt &&\
 	mv arduino-firmata.jar ../
