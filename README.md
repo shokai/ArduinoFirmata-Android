@@ -21,9 +21,6 @@ SYNOPSIS:
 2. Download [usb-serial-for-android.jar](http://code.google.com/p/usb-serial-for-android)
 3. Put into "libs" directory
 4. Copy [device_filter.xml](http://usb-serial-for-android.googlecode.com/git/UsbSerialExamples/res/xml/device_filter.xml) to "res/xml" directory
-
-<img src="http://shokai.org/archive/file/9cc50dffd79a489b23fcf75e4250d4fa.png">
-
 5. edit AndroidManifest.xml
 
 ```xml
@@ -36,6 +33,9 @@ SYNOPSIS:
       android:resource="@xml/device_filter" />
 </activity>
 ```
+
+<img src="http://shokai.org/archive/file/9cc50dffd79a489b23fcf75e4250d4fa.png">
+
 
 ### Connect
 
