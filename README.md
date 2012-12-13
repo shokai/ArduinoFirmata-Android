@@ -42,7 +42,7 @@ import org.shokai.firmata.ArduinoFirmata;
 
 ArduinoFirmata arduino = new ArduinoFirmata();
 try{
-  arduino.start();
+  arduino.connect();
 }
 catch(IOException e){
   e.printStackTrace();
