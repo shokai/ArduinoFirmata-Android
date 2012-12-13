@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Arduinofirmata-android by shokai</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Arduinofirmata-android</h1>
+        <p>Arduino Firmata protocol implementation on Android(Java)</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/shokai/ArduinoFirmata-Android" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/shokai/ArduinoFirmata-Android/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/shokai/ArduinoFirmata-Android/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>ArduinoFirmata-Android</h1>
+
+<p>Arduino Firmata protocol (<a href="http://firmata.org">http://firmata.org</a>) implementation on Android(Java)</p>
+
+<ul>
+<li><a href="https://github.com/shokai/ArduinoFirmata-Android">https://github.com/shokai/ArduinoFirmata-Android</a></li>
+</ul><h2>REQUIREMENTS:</h2>
+
+<ul>
+<li>Arduino Standard Firmata v2.2</li>
+</ul><p>Arduino IDE -&gt; [File] -&gt; [Examples] -&gt; [Firmata] -&gt; [StandardFirmata]</p>
+
+<ul>
+<li>Android SDK 13+ (Android OS 3.2+)</li>
+<li><a href="http://code.google.com/p/usb-serial-for-android">usb-serial-for-android</a></li>
+<li><a href="https://www.google.com/search?q=USB+host+cable">USB Host Cable</a></li>
+</ul><h2>SYNOPSIS:</h2>
+
+<ol>
+<li>Copy <a href="https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar">arduino-firmata.jar</a> and <a href="http://code.google.com/p/usb-serial-for-android">usb-serial-for-android.jar</a> to "libs" directory</li>
+<li>Copy <a href="http://usb-serial-for-android.googlecode.com/git/UsbSerialExamples/res/xml/device_filter.xml">device_filter.xml</a> to "res/xml" directory</li>
+<li>edit AndroidManifest.xml</li>
+</ol><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">"MainActivity"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"android.hardware.usb.action.USB_DEVICE_ATTACHED"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/intent-filter&gt;</span>
+  <span class="nt">&lt;meta-data</span>
+      <span class="na">android:name=</span><span class="s">"android.hardware.usb.action.USB_DEVICE_ATTACHED"</span>
+      <span class="na">android:resource=</span><span class="s">"@xml/device_filter"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+</pre></div>
+
+<p><img src="http://shokai.org/archive/file/9cc50dffd79a489b23fcf75e4250d4fa.png"></p>
+
+<h3>Connect</h3>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">org.shokai.firmata.ArduinoFirmata</span><span class="o">;</span>
+
+<span class="n">ArduinoFirmata</span> <span class="n">arduino</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArduinoFirmata</span><span class="o">();</span>
+<span class="k">try</span><span class="o">{</span>
+  <span class="n">arduino</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">){</span>
+  <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+
+<h3>Digital Write</h3>
+
+<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">digitalWrite</span><span class="o">(</span><span class="mi">13</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span> <span class="c1">// on board LED</span>
+<span class="n">arduino</span><span class="o">.</span><span class="na">digitalWrite</span><span class="o">(</span><span class="mi">13</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</pre></div>
+
+<h3>Digital Read</h3>
+
+<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">pinMode</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="n">ArduinoFirmata</span><span class="o">.</span><span class="na">INPUT</span><span class="o">);</span>
+<span class="n">arduino</span><span class="o">.</span><span class="na">digitalRead</span><span class="o">(</span><span class="mi">7</span><span class="o">);</span>  <span class="c1">// =&gt; true/false</span>
+</pre></div>
+
+<h3>Analog Write (PWM)</h3>
+
+<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">analogWrite</span><span class="o">(</span><span class="mi">11</span><span class="o">,</span> <span class="mi">230</span><span class="o">);</span> <span class="c1">// pinNumber, value(0~255)</span>
+</pre></div>
+
+<h3>Analog Read</h3>
+
+<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">analogRead</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>  <span class="c1">// =&gt; 0 ~ 1023</span>
+</pre></div>
+
+<h3>Close</h3>
+
+<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</pre></div>
+
+<h3>Set Event Handler</h3>
+
+<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">setEventHandler</span><span class="o">(</span>
+  <span class="k">new</span> <span class="nf">ArduinoFirmataEventHandler</span><span class="o">(){</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">String</span> <span class="n">errorMessage</span><span class="o">){</span>
+      <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">"ArduinoFirmata App"</span><span class="o">,</span> <span class="n">errorMessage</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClose</span><span class="o">(){</span>
+      <span class="n">Log</span><span class="o">.</span><span class="na">v</span><span class="o">(</span><span class="s">"ArduinoFirmata App"</span><span class="o">,</span> <span class="s">"arduino closed"</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">);</span>
+</pre></div>
+
+<p>see samples <a href="https://github.com/shokai/ArduinoFirmata-Android/blob/master/samples">https://github.com/shokai/ArduinoFirmata-Android/blob/master/samples</a></p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/shokai">shokai</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
