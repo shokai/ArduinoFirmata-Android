@@ -2,6 +2,7 @@ ArduinoFirmata-Android
 ======================
 Arduino Firmata protocol (http://firmata.org) implementation on Android(Java)
 
+* https://github.com/shokai/ArduinoFirmata-Android
 
 REQUIREMENTS:
 -------------
