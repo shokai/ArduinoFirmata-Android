@@ -2,6 +2,8 @@
 *.log
 *~
 *.class
+.classpath
+.project
 bin
 build.xml
 local.properties
