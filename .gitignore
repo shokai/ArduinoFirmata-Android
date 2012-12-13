@@ -1,0 +1,7 @@
+*~
+*#*
+.DS_Store
+samples/*
+src/*
+tmp/*
+usb-serial-for-android/*
