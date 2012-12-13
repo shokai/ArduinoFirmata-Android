@@ -1,15 +1,95 @@
 ArduinoFirmata-Android
 ======================
-Arduino Firmata protocol implementation on Android(Java)
+Arduino Firmata protocol (http://firmata.org) implementation on Android(Java)
 
 
-## Dependencies
+REQUIREMENTS:
+-------------
+* Arduino Standard Firmata v2.2
+Arduino IDE -> [File] -> [Examples] -> [Firmata] -> [StandardFirmata]
 
 * Android SDK 13+ (Android OS 3.2+)
 * [usb-serial-for-android](http://code.google.com/p/usb-serial-for-android)
+* [USB Host Cable](https://www.google.com/search?q=USB+host+cable)
 
 
-## Build arduino-firmata.jar
+SYNOPSIS:
+---------
+
+1. Download (https://github.com/shokai/ArduinoFirmata-Android/raw/master/arduino-firmata.jar)[arduino-firmata.jar]
+2. Download [usb-serial-for-android](http://code.google.com/p/usb-serial-for-android)
+3. Put into "libs" directory
+<img src="http://shokai.org/archive/file/1ccdad0b5a0d705124e8fb0cdd5a98c0.png">
+
+
+### Connect
+
+```java
+import org.shokai.firmata.ArduinoFirmata;
+
+ArduinoFirmata arduino = new ArduinoFirmata();
+try{
+  arduino.start();
+}
+catch(IOException e){
+  e.printStackTrace();
+}
+```
+
+
+### Digital Write
+```java
+arduino.digitalWrite(13, true);
+arduino.digitalWrite(13, false);
+```
+
+### Digital Read
+```java
+arduino.pinMode(7, ArduinoFirmata.INPUT);
+arduino.digitalRead(7);  // => true/false
+```
+
+### Analog Write (PWM)
+```java
+arduino.analogWrite(11, 230);
+```
+
+### Analog Read
+```java
+arduino.analogRead(0);  // => 0 ~ 1023
+```
+
+Close
+```java
+arduino.close();
+```
+
+Set Event Handler
+```java
+arduino.addEventHandler(
+  new ArduinoFirmataEventHandler(){
+    public void onError(String errorMessage){
+      Log.e("ArduinoFirmata App", errorMessage);
+    }
+    public void onClose(){
+      Log.v("ArduinoFirmata App", "arduino closed");
+    }
+  }
+);
+```
+
+see samples https://github.com/shokai/ArduinoFirmata-Android/blob/master/samples
+
+
+Contributing
+------------
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+### Build arduino-firmata.jar
 
 set Android SDK Path
 
