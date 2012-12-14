@@ -14,25 +14,25 @@ public class ArduinoFirmata{
     public final static String VERSION = "0.0.3";
     public final static String TAG = "ArduinoFirmata";
 
-    public static final int INPUT  = 0;
-    public static final int OUTPUT = 1;
-    public static final int ANALOG = 2;
-    public static final int PWM    = 3;
-    public static final int SERVO  = 4;
-    public static final int SHIFT  = 5;
-    public static final int I2C    = 6;
+    public static final byte INPUT  = 0;
+    public static final byte OUTPUT = 1;
+    public static final byte ANALOG = 2;
+    public static final byte PWM    = 3;
+    public static final byte SERVO  = 4;
+    public static final byte SHIFT  = 5;
+    public static final byte I2C    = 6;
     public static final boolean LOW   = false;
     public static final boolean HIGH  = true;
-    private final int MAX_DATA_BYTES  = 32;
-    private final int DIGITAL_MESSAGE = 0x90;
-    private final int ANALOG_MESSAGE  = 0xE0;
-    private final int REPORT_ANALOG   = 0xC0;
-    private final int REPORT_DIGITAL  = 0xD0;
-    private final int SET_PIN_MODE    = 0xF4;
-    private final int REPORT_VERSION  = 0xF9;
-    private final int SYSTEM_RESET    = 0xFF;
-    private final int START_SYSEX     = 0xF0;
-    private final int END_SYSEX       = 0xF7;
+    private final byte MAX_DATA_BYTES  = 32;
+    private final byte DIGITAL_MESSAGE = (byte)0x90;
+    private final byte ANALOG_MESSAGE  = (byte)0xE0;
+    private final byte REPORT_ANALOG   = (byte)0xC0;
+    private final byte REPORT_DIGITAL  = (byte)0xD0;
+    private final byte SET_PIN_MODE    = (byte)0xF4;
+    private final byte REPORT_VERSION  = (byte)0xF9;
+    private final byte SYSTEM_RESET    = (byte)0xFF;
+    private final byte START_SYSEX     = (byte)0xF0;
+    private final byte END_SYSEX       = (byte)0xF7;
 
     private UsbSerialDriver usb;
     private Context context;
@@ -43,9 +43,9 @@ public class ArduinoFirmata{
     }
 
     private int waitForData = 0;
-    private int executeMultiByteCommand = 0;
-    private int multiByteChannel = 0;
-    private int[] storedInputData = new int[MAX_DATA_BYTES];
+    private byte executeMultiByteCommand = 0;
+    private byte multiByteChannel = 0;
+    private byte[] storedInputData = new byte[MAX_DATA_BYTES];
     private boolean parsingSysex;
     private int sysexBytesRead;
     private int[] digitalOutputData = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -103,13 +103,14 @@ public class ArduinoFirmata{
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        for (int i = 0; i < 6; i++) {
-            write(REPORT_ANALOG | i);
-            write(1);
+        byte[] writeData = {0, 1};
+        for (byte i = 0; i < 6; i++) {
+            writeData[0] = (byte)(REPORT_ANALOG | i);
+            write(writeData);
         }
-        for (int i = 0; i < 2; i++) {
-            write(REPORT_DIGITAL | i);
-            write(1);
+        for (byte i = 0; i < 2; i++) {
+            writeData[0] = (byte)(REPORT_DIGITAL | i);
+            write(writeData);
         }
     }
 
@@ -129,8 +130,7 @@ public class ArduinoFirmata{
         }
     }
 
-    public void write(int data){
-        byte[] writeData = {(byte)data};
+    public void write(byte[] writeData){
         try{
             if(this.isOpen()) this.usb.write(writeData, 100);
         }
@@ -138,6 +138,11 @@ public class ArduinoFirmata{
             this.close();
             if(handler!=null) handler.onClose();
         }
+    }
+
+    public void write(byte writeData){
+        byte[] _writeData = {(byte)writeData};
+        write(_writeData);
     }
 
     public boolean digitalRead(int pin) {
@@ -148,26 +153,31 @@ public class ArduinoFirmata{
         return analogInputData[pin];
     }
 
-    public void pinMode(int pin, int mode) {
-        write(SET_PIN_MODE);
-        write(pin);
-        write(mode);
+    public void pinMode(int pin, byte mode) {
+        byte[] writeData = {SET_PIN_MODE, (byte)pin, mode};
+        write(writeData);
     }
 
     public void digitalWrite(int pin, boolean value) {
-        int portNumber = (pin >> 3) & 0x0F;
+        byte portNumber = (byte)((pin >> 3) & 0x0F);
         if (!value) digitalOutputData[portNumber] &= ~(1 << (pin & 0x07));
         else digitalOutputData[portNumber] |= (1 << (pin & 0x07));
-        write(DIGITAL_MESSAGE | portNumber);
-        write(digitalOutputData[portNumber] & 0x7F);
-        write(digitalOutputData[portNumber] >> 7);
+        byte[] writeData = {
+            (byte)(DIGITAL_MESSAGE | portNumber),
+            (byte)(digitalOutputData[portNumber] & 0x7F),
+            (byte)(digitalOutputData[portNumber] >> 7)
+        };
+        write(writeData);
     }
 
     public void analogWrite(int pin, int value) {
         pinMode(pin, PWM);
-        write(ANALOG_MESSAGE | (pin & 0x0F));
-        write(value & 0x7F);
-        write(value >> 7);
+        byte[] writeData = {
+            (byte)(ANALOG_MESSAGE | (pin & 0x0F)),
+            (byte)(value & 0x7F),
+            (byte)(value >> 7)
+        };
+        write(writeData);
     }
 
     private void setDigitalInputs(int portNumber, int portData) {
@@ -184,7 +194,7 @@ public class ArduinoFirmata{
     }
 
     private void processInput(byte inputData){
-        int command;
+        byte command;
         if (parsingSysex) {
             if (inputData == END_SYSEX) {
                 parsingSysex = false;
@@ -211,8 +221,8 @@ public class ArduinoFirmata{
         }
         else {
             if(inputData < 0xF0) {
-                command = inputData & 0xF0;
-                multiByteChannel = inputData & 0x0F;
+                command = (byte)(inputData & 0xF0);
+                multiByteChannel = (byte)(inputData & 0x0F);
             } else {
                 command = inputData;
             }
