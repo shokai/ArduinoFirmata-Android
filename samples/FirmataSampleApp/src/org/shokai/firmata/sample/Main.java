@@ -21,6 +21,7 @@ public class Main extends Activity{
     private ArduinoFirmata arduino;
     private ToggleButton btnDigitalWrite;
     private SeekBar seekAnalogWrite;
+    private SeekBar seekServoWrite;
     private TextView textAnalogRead;
     private TextView textDigitalRead;
 
@@ -34,6 +35,9 @@ public class Main extends Activity{
         this.seekAnalogWrite = (SeekBar)findViewById(R.id.seek_analog_write);
         this.seekAnalogWrite.setMax(255);
         this.seekAnalogWrite.setProgress(10);
+        this.seekServoWrite = (SeekBar)findViewById(R.id.seek_servo_write);
+        this.seekServoWrite.setMax(180);
+        this.seekServoWrite.setProgress(10);
         this.textAnalogRead = (TextView)findViewById(R.id.text_analog_read);
         this.textDigitalRead = (TextView)findViewById(R.id.text_digital_read);
 
@@ -69,6 +73,17 @@ public class Main extends Activity{
                     int value = seekBar.getProgress();
                     Log.v(TAG, "analogWrite(11, "+String.valueOf(value)+")");
                     arduino.analogWrite(11, value);
+                }
+            });
+
+        seekServoWrite.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+                public void onProgressChanged(SeekBar seekBar, int angle, boolean fromTouch){
+                    Log.v(TAG, "servoWrite(9, "+String.valueOf(angle)+")");
+                    arduino.servoWrite(9, angle);
+                }
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+                public void onStopTrackingTouch(SeekBar seekBar) {
                 }
             });
 
