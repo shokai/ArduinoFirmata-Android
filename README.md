@@ -82,6 +82,11 @@ arduino.analogWrite(11, 230); // pinNumber, value(0~255)
 arduino.analogRead(0);  // => 0 ~ 1023
 ```
 
+### Servo Motor
+```java
+arduino.servoWrite(9, 135); // pinNumber, angle(0~180)
+```
+
 ### Close
 ```java
 arduino.close();
