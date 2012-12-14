@@ -111,6 +111,7 @@ public class Main extends Activity{
 
         try{
             arduino.connect();
+            Log.v(TAG, "Board Version : "+arduino.getBoardVersion());
             arduino.pinMode(7, ArduinoFirmata.INPUT);
             thread.start();
         }
