@@ -39,6 +39,7 @@ public class Main extends Activity{
 
         Log.v(TAG, "start");
         Log.v(TAG, "Firmata Lib Version : "+ArduinoFirmata.VERSION);
+        this.setTitle(this.getTitle()+" v"+ArduinoFirmata.VERSION);
 
         this.arduino = new ArduinoFirmata(this);
         final Activity self = this;
