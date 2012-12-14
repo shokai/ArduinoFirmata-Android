@@ -180,6 +180,16 @@ public class ArduinoFirmata{
         write(writeData);
     }
 
+    public void servoWrite(int pin, int angle){
+        byte[] writeData = {
+            SET_PIN_MODE, (byte)pin, SERVO,
+            (byte)(ANALOG_MESSAGE | (pin & 0x0F)),
+            (byte)(angle & 0x7F),
+            (byte)(angle >> 7)
+        };
+        write(writeData);
+    }
+
     private void setDigitalInputs(int portNumber, int portData) {
         digitalInputData[portNumber] = portData;
     }
