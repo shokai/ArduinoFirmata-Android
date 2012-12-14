@@ -1008,3 +1008,15 @@ footer {
     width: auto;
   }
 }
+
+.img-box {
+  margin : 0px;
+  padding : 0px;
+  width : 101%;
+}
+
+.img-box .split3 {
+  margin : 0px;
+  padding : 0px;
+  width : 33%;
+}
