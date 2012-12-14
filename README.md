@@ -69,7 +69,7 @@ arduino.digitalWrite(13, false);
 ### Digital Read
 ```java
 arduino.pinMode(7, ArduinoFirmata.INPUT);
-arduino.digitalRead(7);  // => true/false
+boolean status = arduino.digitalRead(7);  // => true/false
 ```
 
 ### Analog Write (PWM)
@@ -79,7 +79,7 @@ arduino.analogWrite(11, 230); // pinNumber, value(0~255)
 
 ### Analog Read
 ```java
-arduino.analogRead(0);  // => 0 ~ 1023
+int value = arduino.analogRead(0);  // => 0 ~ 1023
 ```
 
 ### Servo Motor
