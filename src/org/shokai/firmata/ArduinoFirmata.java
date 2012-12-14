@@ -97,11 +97,15 @@ public class ArduinoFirmata{
             this.th_receive.start();
         }
 
-        try {
-            Thread.sleep(5000);
-        }
-        catch (InterruptedException e){
-            e.printStackTrace();
+        int count = 0;
+        while(!isOpen()){
+            try {
+                if(++count > 50) throw new IOException("device not found");
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
         byte[] writeData = {0, 1};
         for (byte i = 0; i < 6; i++) {
