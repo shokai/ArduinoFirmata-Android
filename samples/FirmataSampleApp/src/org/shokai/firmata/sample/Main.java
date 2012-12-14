@@ -81,6 +81,7 @@ public class Main extends Activity{
                                         int analog_value = arduino.analogRead(0);
                                         boolean digital_value = arduino.digitalRead(7);
                                         textAnalogRead.setText("analogRead(0) = "+String.valueOf(analog_value));
+                                        textAnalogRead.setTextSize(10+(float)analog_value/10);
                                         textDigitalRead.setText("digitalRead(7) = "+String.valueOf(digital_value));
                                     }
                                 });
