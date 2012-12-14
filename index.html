@@ -90,6 +90,7 @@
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">org.shokai.firmata.ArduinoFirmata</span><span class="o">;</span>
 
 <span class="n">ArduinoFirmata</span> <span class="n">arduino</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArduinoFirmata</span><span class="o">();</span>
+
 <span class="k">try</span><span class="o">{</span>
   <span class="n">arduino</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
 <span class="o">}</span>
@@ -107,7 +108,7 @@ on board Yellow LED
 <h3>Digital Read</h3>
 
 <div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">pinMode</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="n">ArduinoFirmata</span><span class="o">.</span><span class="na">INPUT</span><span class="o">);</span>
-<span class="n">arduino</span><span class="o">.</span><span class="na">digitalRead</span><span class="o">(</span><span class="mi">7</span><span class="o">);</span>  <span class="c1">// =&gt; true/false</span>
+<span class="k">boolean</span> <span class="n">status</span> <span class="p">=</span> <span class="n">arduino</span><span class="o">.</span><span class="na">digitalRead</span><span class="o">(</span><span class="mi">7</span><span class="o">);</span>  <span class="c1">// =&gt; true/false</span>
 </pre></div>
 
 <h3>Analog Write (PWM)</h3>
@@ -119,7 +120,7 @@ on board Yellow LED
 
 <h3>Analog Read</h3>
 
-<div class="highlight"><pre><span class="n">arduino</span><span class="o">.</span><span class="na">analogRead</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>  <span class="c1">// =&gt; 0 ~ 1023</span>
+<div class="highlight"><pre><span class="k">int</span> <span class="n">value</span> <span class="p">=</span> <span class="n">arduino</span><span class="o">.</span><span class="na">analogRead</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>  <span class="c1">// =&gt; 0 ~ 1023</span>
 </pre></div>
 
 <p>GND &amp; 5V -&gt; CdS &amp; 10kΩ -&gt; Analog 0 PIN
