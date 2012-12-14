@@ -171,8 +171,8 @@ public class ArduinoFirmata{
     }
 
     public void analogWrite(int pin, int value) {
-        pinMode(pin, PWM);
         byte[] writeData = {
+            SET_PIN_MODE, (byte)pin, PWM,
             (byte)(ANALOG_MESSAGE | (pin & 0x0F)),
             (byte)(value & 0x7F),
             (byte)(value >> 7)
