@@ -8,7 +8,7 @@ Arduino Firmata protocol (http://firmata.org) implementation on Android Java.
 What is Firmata?
 ----------------
 Firmata is a protocol to controll Arduino from Application on Android Phone.
-You can write Arduino code in Java.
+You can write Arduino-code in Android Java.
 
 
 REQUIREMENTS:
