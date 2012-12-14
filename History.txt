@@ -1,3 +1,7 @@
+=== 0.1.0 2012-12-14
+
+* add function servoWrite(pin, angle)
+
 === 0.0.4 2012-12-14
 
 * bulk write commands
