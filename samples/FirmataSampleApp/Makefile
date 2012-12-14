@@ -1,7 +1,8 @@
-all:
-	ant debug
+all: clean build
 setup:
 	android update project --path `pwd` --name 'FirmataSample'
+build:
+	ant debug
 install:
 	adb install -r bin/FirmataSample-debug.apk
 uninstall:
