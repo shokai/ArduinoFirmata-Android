@@ -5,6 +5,7 @@ import org.shokai.firmata.ArduinoFirmataEventHandler;
 
 import java.io.*;
 import java.lang.*;
+import java.util.*;
 import android.hardware.usb.*;
 
 import android.app.*;
@@ -24,6 +25,7 @@ public class Main extends Activity{
     private SeekBar seekServoWrite;
     private TextView textAnalogRead;
     private TextView textDigitalRead;
+    private long lastServoMovedAt = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -80,6 +82,7 @@ public class Main extends Activity{
                 public void onProgressChanged(SeekBar seekBar, int angle, boolean fromTouch){
                     Log.v(TAG, "servoWrite(9, "+String.valueOf(angle)+")");
                     arduino.servoWrite(9, angle);
+                    lastServoMovedAt = System.currentTimeMillis() / 1000L;
                 }
                 public void onStartTrackingTouch(SeekBar seekBar) {
                 }
@@ -89,6 +92,8 @@ public class Main extends Activity{
 
         Thread thread = new Thread(new Runnable(){
                 public void run(){
+                    int servo_count = 0;
+                    Random rand = new Random();
                     while(arduino.isOpen()){
                         try{
                             Thread.sleep(100);
@@ -101,6 +106,13 @@ public class Main extends Activity{
                                         textDigitalRead.setText("digitalRead(7) = "+String.valueOf(digital_value));
                                     }
                                 });
+                            if(++servo_count > 20){
+                                servo_count = 0;
+                                Log.v(TAG, "lastServoMovedAt "+String.valueOf(lastServoMovedAt));
+                                if(3 < (System.currentTimeMillis()/1000L) - lastServoMovedAt){
+                                    arduino.servoWrite(9, rand.nextInt(180));
+                                }
+                            }
                         }
                         catch(InterruptedException e){
                             e.printStackTrace();
