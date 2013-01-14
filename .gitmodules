@@ -1,3 +1,3 @@
-[submodule "usb-serial-for-android"]
-	path = usb-serial-for-android
-	url = https://code.google.com/p/usb-serial-for-android/
+[submodule "FTDriver"]
+	path = FTDriver
+	url = git://github.com/ksksue/FTDriver.git
