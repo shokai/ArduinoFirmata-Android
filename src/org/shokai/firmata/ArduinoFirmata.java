@@ -1,6 +1,6 @@
 package org.shokai.firmata;
 
-import com.hoho.android.usbserial.driver.*;
+import jp.ksksue.driver.serial.*;
 
 import java.io.*;
 import java.lang.*;
@@ -34,7 +34,7 @@ public class ArduinoFirmata{
     private final byte START_SYSEX     = (byte)0xF0;
     private final byte END_SYSEX       = (byte)0xF7;
 
-    private UsbSerialDriver usb;
+    private FTDriver device;
     private Context context;
     private Thread th_receive = null;
     private ArduinoFirmataEventHandler handler;
@@ -59,34 +59,23 @@ public class ArduinoFirmata{
 
     public ArduinoFirmata(android.app.Activity context){
         this.context = context;
-        UsbManager manager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
-        this.usb = UsbSerialProber.acquire(manager);
+        this.device = new FTDriver((UsbManager) context.getSystemService(Context.USB_SERVICE));
     }
 
     public void connect() throws IOException, InterruptedException{
         if(!this.isOpen()) throw new IOException("device not found");
-        try{
-            this.usb.open();
-            this.usb.setBaudRate(57600);
-        }
-        catch(IOException e){
-            throw e;
-        }
+        this.device.begin(FTDriver.BAUD57600);
         if(this.th_receive == null){
             this.th_receive = new Thread(new Runnable(){
                     public void run(){
                         while(isOpen()){
                             try{
                                 byte buf[] = new byte[256];
-                                int size = usb.read(buf, buf.length);
+                                int size = device.read(buf);
                                 for(int i = 0; i < size; i++){
                                     processInput(buf[i]);
                                 }
                                 Thread.sleep(10);
-                            }
-                            catch(IOException e){
-                                close();
-                                if(handler!=null) handler.onClose();
                             }
                             catch(InterruptedException e){
                                 if(handler!=null) handler.onError(e.toString());
@@ -119,29 +108,17 @@ public class ArduinoFirmata{
     }
 
     public boolean isOpen(){
-        return this.usb != null;
+        return this.device != null;
     }
 
     public boolean close(){
-        try{
-            this.usb.close();
-            this.usb = null;
-            return true;
-        }
-        catch(IOException e){
-            if(handler!=null) handler.onError(e.toString());
-            return false;
-        }
+        this.device.end();
+        this.device = null;
+        return true;
     }
 
     public void write(byte[] writeData){
-        try{
-            if(this.isOpen()) this.usb.write(writeData, 100);
-        }
-        catch(IOException e){
-            this.close();
-            if(handler!=null) handler.onClose();
-        }
+        if(this.isOpen()) this.device.write(writeData);
     }
 
     public void write(byte writeData){

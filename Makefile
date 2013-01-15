@@ -1,10 +1,8 @@
 all: build
 
 init:
-	cd usb-serial-for-android &&\
-	git pull origin master &&\
-	cd ../ &&\
-	cp -R usb-serial-for-android/UsbSerialLibrary/src/com src/
+	cd FTDriver &&\
+	git pull origin master
 
 compile:
 	cd src &&\
@@ -14,7 +12,7 @@ compile:
 
 build: compile
 	cd src &&\
-	jar cvf arduino-firmata.jar ./org &&\
+	jar cvf arduino-firmata.jar ./ &&\
 	jar uvf arduino-firmata.jar ../README.md &&\
 	jar uvf arduino-firmata.jar ../LICENSE.txt &&\
 	jar uvf arduino-firmata.jar ../History.txt &&\
