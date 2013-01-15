@@ -108,7 +108,7 @@ public class ArduinoFirmata{
     }
 
     public boolean isOpen(){
-        return this.device != null;
+        return this.device != null && this.device.isConnected();
     }
 
     public boolean close(){
