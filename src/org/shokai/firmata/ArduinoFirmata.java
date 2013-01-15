@@ -64,7 +64,7 @@ public class ArduinoFirmata{
 
     public void connect() throws IOException, InterruptedException{
         if(!this.isOpen()) throw new IOException("device not found");
-        this.device.begin(FTDriver.BAUD57600);
+        this.device.begin(57600);
         if(this.th_receive == null){
             this.th_receive = new Thread(new Runnable(){
                     public void run(){
