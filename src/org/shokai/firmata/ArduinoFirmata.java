@@ -35,6 +35,7 @@ public class ArduinoFirmata{
     private final byte END_SYSEX       = (byte)0xF7;
 
     private FTDriver device;
+    private BroadcastReceiver usbReceiver;
     private Context context;
     private Thread th_receive = null;
     private ArduinoFirmataEventHandler handler;
@@ -59,6 +60,17 @@ public class ArduinoFirmata{
 
     public ArduinoFirmata(android.app.Activity context){
         this.context = context;
+        this.usbReceiver = new BroadcastReceiver(){
+                public void onReceive(Context context, Intent intent){
+                    String action = intent.getAction();
+                    if(UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(action)){
+                    }
+                    else if(UsbManager.ACTION_USB_DEVICE_DETACHED.equals(action)){
+                        close();
+                        if(handler!=null) handler.onClose();
+                    }
+                }
+            };
         this.device = new FTDriver((UsbManager) context.getSystemService(Context.USB_SERVICE));
     }
 
@@ -76,6 +88,12 @@ public class ArduinoFirmata{
                                     processInput(buf[i]);
                                 }
                                 Thread.sleep(10);
+                            }
+                            catch(NullPointerException e){
+                                if(handler!=null){
+                                    close();
+                                    handler.onClose();
+                                }
                             }
                             catch(InterruptedException e){
                                 if(handler!=null) handler.onError(e.toString());
@@ -112,13 +130,20 @@ public class ArduinoFirmata{
     }
 
     public boolean close(){
+        if(this.device == null) return false;
         this.device.end();
         this.device = null;
         return true;
     }
 
     public void write(byte[] writeData){
-        if(this.isOpen()) this.device.write(writeData);
+        try{
+            if(this.isOpen()) this.device.write(writeData);
+        }
+        catch(NullPointerException e){
+            this.close();
+            if(handler!=null) handler.onClose();
+        }
     }
 
     public void write(byte writeData){
