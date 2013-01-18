@@ -167,6 +167,7 @@ public class ArduinoFirmata{
         if (!value) digitalOutputData[portNumber] &= ~(1 << (pin & 0x07));
         else digitalOutputData[portNumber] |= (1 << (pin & 0x07));
         byte[] writeData = {
+            SET_PIN_MODE, (byte)pin, OUTPUT,
             (byte)(DIGITAL_MESSAGE | portNumber),
             (byte)(digitalOutputData[portNumber] & 0x7F),
             (byte)(digitalOutputData[portNumber] >> 7)
