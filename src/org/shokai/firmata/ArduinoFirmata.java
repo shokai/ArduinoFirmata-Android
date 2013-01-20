@@ -145,6 +145,10 @@ public class ArduinoFirmata{
         write(_writeData);
     }
 
+    public void reset(){
+        write(SYSTEM_RESET);
+    }
+
     public boolean digitalRead(int pin) {
         return ((digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01) > 0;
     }
