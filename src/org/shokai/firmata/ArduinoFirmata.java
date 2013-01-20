@@ -64,10 +64,14 @@ public class ArduinoFirmata{
     }
 
     public void connect() throws IOException, InterruptedException{
-        if(!this.isOpen()) throw new IOException("device not found");
+        if(this.usb == null) throw new IOException("device not found");
         try{
             this.usb.open();
             this.usb.setBaudRate(57600);
+            Thread.sleep(3000);
+        }
+        catch(InterruptedException e){
+            throw e;
         }
         catch(IOException e){
             throw e;
@@ -77,10 +81,12 @@ public class ArduinoFirmata{
                     public void run(){
                         while(isOpen()){
                             try{
-                                byte buf[] = new byte[256];
-                                int size = usb.read(buf, buf.length);
-                                for(int i = 0; i < size; i++){
-                                    processInput(buf[i]);
+                                byte buf[] = new byte[4096];
+                                int size = usb.read(buf, 100);
+                                if(size > 0){
+                                    for(int i = 0; i < size; i++){
+                                        processInput(buf[i]);
+                                    }
                                 }
                                 Thread.sleep(10);
                             }
@@ -97,24 +103,14 @@ public class ArduinoFirmata{
             this.th_receive.start();
         }
 
-        int count = 0;
-        while(!isOpen()){
-            try {
-                if(++count > 50) throw new IOException("device not found");
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e){
-                e.printStackTrace();
-            }
-        }
         byte[] writeData = {0, 1};
         for (byte i = 0; i < 6; i++) {
-            writeData[0] = (byte)(REPORT_ANALOG | i);
-            write(writeData);
+            write((byte)(REPORT_ANALOG | i));
+            write((byte)1);
         }
         for (byte i = 0; i < 2; i++) {
-            writeData[0] = (byte)(REPORT_DIGITAL | i);
-            write(writeData);
+            write((byte)(REPORT_DIGITAL | i));
+            write((byte)1);
         }
     }
 
