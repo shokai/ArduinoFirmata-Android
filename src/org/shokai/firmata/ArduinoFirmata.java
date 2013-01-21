@@ -151,11 +151,15 @@ public class ArduinoFirmata{
 
     public void sysex(byte command, byte[] data){
         // http://firmata.org/wiki/V2.1ProtocolDetails#Sysex_Message_Format
-        write(START_SYSEX);
-        for(byte i = 0; i < data.length && i < 32; i++){
-            write((byte)(data[i] & 127)); // 7bit
+        if(data.length > 32) return;
+        byte[] writeData = new byte[data.length+3];
+        writeData[0] = START_SYSEX;
+        writeData[1] = command;
+        for(int i = 0; i < data.length; i++){
+            writeData[i+2] = (byte)(data[i] & 127); // 7bit
         }
-        write(END_SYSEX);
+        writeData[writeData.length-1] = END_SYSEX;
+        write(writeData);
     }
 
     public boolean digitalRead(int pin) {

@@ -1,10 +1,10 @@
 all: clean build
 setup:
-	android update project --path `pwd` --name 'SysexSample'
+	android update project --path `pwd` --name 'SysexSampleApp'
 build:
 	ant debug
 install:
-	adb install -r bin/SysexSample-debug.apk
+	adb install -r bin/SysexSampleApp-debug.apk
 uninstall:
 	adb uninstall org.shokai.firmata.sysexsample
 logcat:
