@@ -4,12 +4,15 @@ Sysex
 -----
 - http://firmata.org/wiki/V2.1ProtocolDetails#Sysex_Message_Format
 
-    Generic Sysex Message
-    0     START_SYSEX (0xF0)
-    1     sysex command (0x00-0x7F)
-    x     between 0 and MAX_DATA_BYTES 7-bit bytes of arbitrary data
-    last  END_SYSEX (0xF7)
-
+Format
+------
+```
+Generic Sysex Message
+0     START_SYSEX (0xF0)
+1     sysex command (0x00-0x7F)
+x     between 0 and MAX_DATA_BYTES 7-bit bytes of arbitrary data
+last  END_SYSEX (0xF7)
+```
 
 Samples
 -------
