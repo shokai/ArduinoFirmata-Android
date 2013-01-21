@@ -149,6 +149,15 @@ public class ArduinoFirmata{
         write(SYSTEM_RESET);
     }
 
+    public void sysex(byte command, byte[] data){
+        // http://firmata.org/wiki/V2.1ProtocolDetails#Sysex_Message_Format
+        write(START_SYSEX);
+        for(byte i = 0; i < data.length && i < 32; i++){
+            write((byte)(data[i] & 127)); // 7bit
+        }
+        write(END_SYSEX);
+    }
+
     public boolean digitalRead(int pin) {
         return ((digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01) > 0;
     }
