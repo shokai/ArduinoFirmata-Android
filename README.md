@@ -132,7 +132,7 @@ arduino.setDataHandler(
 Send
 ```java
 byte[] data = {13, 5, 2};
-arduino.sysex((byte)0x01, data);  # command, data
+arduino.sysex((byte)0x01, data);  // command, data
 ```
 
 Regist Receive Event
