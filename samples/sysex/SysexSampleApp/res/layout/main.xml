@@ -14,5 +14,14 @@
       android:layout_height="wrap_content"
       android:text="pin11, blink 3 times, 1000 msec interval"
       android:id="@+id/btn_sysex2" />
+  <ScrollView
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent">
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text=""
+        android:id="@+id/text_terminal" />
+  </ScrollView>
 </LinearLayout>
 

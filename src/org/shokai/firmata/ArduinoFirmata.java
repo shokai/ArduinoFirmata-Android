@@ -38,16 +38,20 @@ public class ArduinoFirmata{
     private Context context;
     private Thread th_receive = null;
     private ArduinoFirmataEventHandler handler;
+    private ArduinoFirmataDataHandler dataHandler;
     public void setEventHandler(ArduinoFirmataEventHandler handler){
         this.handler = handler;
+    }
+    public void setDataHandler(ArduinoFirmataDataHandler handler){
+        this.dataHandler = handler;
     }
 
     private int waitForData = 0;
     private byte executeMultiByteCommand = 0;
     private byte multiByteChannel = 0;
     private byte[] storedInputData = new byte[MAX_DATA_BYTES];
-    private boolean parsingSysex;
-    private int sysexBytesRead;
+    private boolean parsingSysex = false;
+    private int sysexBytesRead = 0;
     private int[] digitalOutputData = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private int[] digitalInputData  = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private int[] analogInputData   = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -223,18 +227,26 @@ public class ArduinoFirmata{
 
     private void processInput(byte inputData){
         byte command;
-        if (parsingSysex) {
-            if (inputData == END_SYSEX) {
+        if(parsingSysex){
+            if(inputData == END_SYSEX){
                 parsingSysex = false;
-            } else {
-                storedInputData[sysexBytesRead] = inputData;
-                sysexBytesRead++;
+                byte sysexCommand = storedInputData[0];
+                byte[] sysexData = new byte[sysexBytesRead-1];
+                System.arraycopy(storedInputData, 1, sysexData, 0, sysexBytesRead-1);
+                if(dataHandler != null) dataHandler.onSysex(sysexCommand, sysexData);
             }
-        } else if (waitForData > 0 && inputData < 128) {
+            else{
+                if(sysexBytesRead < storedInputData.length){
+                    storedInputData[sysexBytesRead] = inputData;
+                    sysexBytesRead++;
+                }
+            }
+        }
+        else if(waitForData > 0 && inputData < 128){
             waitForData--;
             storedInputData[waitForData] = inputData;
-            if (executeMultiByteCommand != 0 && waitForData == 0) {
-                switch(executeMultiByteCommand) {
+            if(executeMultiByteCommand != 0 && waitForData == 0){
+                switch(executeMultiByteCommand){
                 case DIGITAL_MESSAGE:
                     setDigitalInputs(multiByteChannel, (storedInputData[0] << 7) + storedInputData[1]);
                     break;
@@ -248,13 +260,18 @@ public class ArduinoFirmata{
             }
         }
         else {
-            if(inputData < 0xF0) {
+            if(inputData < 0xF0){
                 command = (byte)(inputData & 0xF0);
                 multiByteChannel = (byte)(inputData & 0x0F);
-            } else {
+            }
+            else{
                 command = inputData;
             }
-            switch (command) {
+            switch(command){
+            case START_SYSEX:
+                parsingSysex = true;
+                sysexBytesRead = 0;
+                break;
             case DIGITAL_MESSAGE:
             case ANALOG_MESSAGE:
             case REPORT_VERSION:

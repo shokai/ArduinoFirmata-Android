@@ -10,6 +10,7 @@ compile:
 	cd src &&\
 	javac org/shokai/firmata/ArduinoFirmataException.java &&\
 	javac org/shokai/firmata/ArduinoFirmataEventHandler.java &&\
+	javac org/shokai/firmata/ArduinoFirmataDataHandler.java &&\
 	javac org/shokai/firmata/ArduinoFirmata.java
 
 build: compile

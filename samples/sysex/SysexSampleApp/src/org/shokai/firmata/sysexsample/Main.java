@@ -2,6 +2,7 @@ package org.shokai.firmata.sysexsample;
 
 import org.shokai.firmata.ArduinoFirmata;
 import org.shokai.firmata.ArduinoFirmataEventHandler;
+import org.shokai.firmata.ArduinoFirmataDataHandler;
 
 import java.io.*;
 import java.lang.*;
@@ -18,16 +19,20 @@ import android.view.View.OnClickListener;
 public class Main extends Activity
 {
     private String TAG = "ArduinoFirmataSysexSample";
+    private Handler handler;
     private ArduinoFirmata arduino;
     private Button btnSysex1, btnSysex2;
+    private TextView textTerminal;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        this.handler = new Handler();
         this.btnSysex1 = (Button)findViewById(R.id.btn_sysex1);
         this.btnSysex2 = (Button)findViewById(R.id.btn_sysex2);
+        this.textTerminal = (TextView)findViewById(R.id.text_terminal);
 
         Log.v(TAG, "start");
         Log.v(TAG, "Firmata Lib Version : "+ArduinoFirmata.VERSION);
@@ -42,6 +47,17 @@ public class Main extends Activity
                 public void onClose(){
                     Log.v(TAG, "arduino closed");
                     self.finish();
+                }
+            });
+        arduino.setDataHandler(new ArduinoFirmataDataHandler(){
+                public void onSysex(byte command, byte[] data){
+                    String dataStr = "";
+                    for(int i = 0; i < data.length; i++){
+                        dataStr += new Integer(data[i]).toString();
+                        dataStr += ",";
+                    }
+                    println("sysex command : " + new Integer(command).toString());
+                    println("sysex data    : " + "["+dataStr+"]");
                 }
             });
 
@@ -73,5 +89,14 @@ public class Main extends Activity
             e.printStackTrace();
             finish();
         }
+    }
+
+    public void println(final String str){
+        Log.v(TAG, str);
+        handler.post(new Runnable(){
+                public void run(){
+                    textTerminal.setText(str + "\n" + textTerminal.getText());
+                }
+            });
     }
 }
