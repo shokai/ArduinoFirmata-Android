@@ -11,7 +11,7 @@ import android.content.*;
 import android.util.Log;
 
 public class ArduinoFirmata{
-    public final static String VERSION = "0.1.3";
+    public final static String VERSION = "0.2.0";
     public final static String TAG = "ArduinoFirmata";
 
     public static final byte INPUT  = 0;
