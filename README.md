@@ -45,8 +45,11 @@ SETUP:
 SYNOPSIS:
 ---------
 
-### Connect
+- https://github.com/shokai/ArduinoFirmata-Android/tree/master/samples
 
+### Setup
+
+Connect
 ```java
 import org.shokai.firmata.ArduinoFirmata;
 
@@ -59,40 +62,44 @@ catch(IOException e){
 }
 ```
 
+Close
+```java
+arduino.close();
+```
 
-### Digital Write
+
+### I/O
+
+Digital Write
 ```java
 arduino.digitalWrite(13, true); // on board LED
 arduino.digitalWrite(13, false);
 ```
 
-### Digital Read
+Digital Read
 ```java
 arduino.pinMode(7, ArduinoFirmata.INPUT);
 boolean status = arduino.digitalRead(7);  // => true/false
 ```
 
-### Analog Write (PWM)
+Analog Write (PWM)
 ```java
 arduino.analogWrite(11, 230); // pinNumber, value(0~255)
 ```
 
-### Analog Read
+Analog Read
 ```java
 int value = arduino.analogRead(0);  // => 0 ~ 1023
 ```
 
-### Servo Motor
+Servo Motor
 ```java
 arduino.servoWrite(9, 135); // pinNumber, angle(0~180)
 ```
 
-### Close
-```java
-arduino.close();
-```
+### Events
 
-### Set Event Handler
+Event Handler
 ```java
 arduino.setEventHandler(
   new ArduinoFirmataEventHandler(){
@@ -106,7 +113,29 @@ arduino.setEventHandler(
 );
 ```
 
-## Set Data Handler
+Data Handler
+```java
+arduino.setDataHandler(
+  new ArduinoFirmataDataHandler(){
+    public void onSysex(byte command, byte[] data){
+    }
+  }
+);
+
+```
+
+### Sysex
+
+- http://firmata.org/wiki/V2.1ProtocolDetails#Sysex_Message_Format
+- https://github.com/shokai/ArduinoFirmata-Android/tree/master/samples/sysex
+
+Send
+```java
+byte[] data = {13, 5, 2};
+arduino.sysex((byte)0x01, data);  # command, data
+```
+
+Regist Receive Event
 ```java
 arduino.setDataHandler(
   new ArduinoFirmataDataHandler(){
@@ -122,10 +151,6 @@ arduino.setDataHandler(
 );
 
 ```
-
-### Samples
-https://github.com/shokai/ArduinoFirmata-Android/blob/master/samples
-
 
 Contributing
 ------------
