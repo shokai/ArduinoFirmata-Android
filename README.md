@@ -106,6 +106,23 @@ arduino.setEventHandler(
 );
 ```
 
+## Set Data Handler
+```java
+arduino.setDataHandler(
+  new ArduinoFirmataDataHandler(){
+    public void onSysex(byte command, byte[] data){
+      Log.v("sysex command", new Integer(command).toString());
+      String s = "";
+      for(int i = 0; i < data.length; i++){
+        s += new Integer(data[i]).toString() + ",";
+      }
+      Log.v("sysex data", s);
+    }
+  }
+);
+
+```
+
 ### Samples
 https://github.com/shokai/ArduinoFirmata-Android/blob/master/samples
 
