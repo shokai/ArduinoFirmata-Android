@@ -64,14 +64,15 @@ public class ArduinoFirmata{
     public ArduinoFirmata(android.app.Activity context){
         this.context = context;
         UsbManager manager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
-        this.usb = UsbSerialProber.acquire(manager);
+        this.usb = UsbSerialProber.findFirstDevice(manager);
     }
 
     public void connect() throws IOException, InterruptedException{
         if(this.usb == null) throw new IOException("device not found");
         try{
             this.usb.open();
-            this.usb.setBaudRate(57600);
+            this.usb.setParameters(
+                57600, UsbSerialDriver.DATABITS_8, UsbSerialDriver.STOPBITS_1, UsbSerialDriver.PARITY_NONE);
             Thread.sleep(3000);
         }
         catch(InterruptedException e){
