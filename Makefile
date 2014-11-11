@@ -2,6 +2,8 @@ all: build
 
 init:
 	cd usb-serial-for-android &&\
+	git submodule init &&\
+	git submodule update &&\
 	git pull origin master &&\
 	cd ../ &&\
 	cp -R usb-serial-for-android/UsbSerialLibrary/src/com src/
