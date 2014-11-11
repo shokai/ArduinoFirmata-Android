@@ -12,3 +12,4 @@ proguard.cfg
 .settings
 tmp
 src/com/hoho
+src/sources.txt
